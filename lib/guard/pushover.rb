@@ -1,7 +1,7 @@
 require 'guard'
 require 'guard/guard'
-# require 'guard/watcher'
-# require 'rushover'
+require 'guard/watcher'
+require 'rushover'
 
 module Guard
   # Send notifications to Hipchat
