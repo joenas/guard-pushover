@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/joenas/preek.png)](https://travis-ci.org/joenas/guard-pushover)
+[![Coverage Status](https://coveralls.io/repos/joenas/guard-pushover/badge.png?branch=master)](https://coveralls.io/r/joenas/guard-pushover)
+
 
 # Guard::Pushover
 
