@@ -15,22 +15,22 @@ module Guard
     }
 
     def initialize(watchers = [], options = {})
-      super()
-      @options = CONFIG.merge(options)
-      @user_key = @options.delete(:user_key)
-      @api_key = @options.delete(:api_key)
+      options = CONFIG.merge(options)
+      @user_key = options.delete(:user_key)
+      @api_key = options.delete(:api_key)
+      super
     end
 
     def run_on_changes(paths)
-      send_notification format_message(paths, :changed)
+      send_notification "#{paths.first} was changed."
     end
 
     def run_on_removals(paths)
-      send_notification format_message(paths, :removed)
+      send_notification "#{paths.first} was removed."
     end
 
     def run_on_additions(paths)
-      send_notification format_message(paths, :added)
+      send_notification "#{paths.first} was added."
     end
 
   private
@@ -41,7 +41,7 @@ module Guard
 
     def send_notification(msg)
       return unless api_keys_valid?
-      @resp = client.notify(@user_key, msg, @options)
+      @resp = client.notify(@user_key, msg, options)
       if @resp.ok?
         UI.info "Pushover: message sent"
       else
@@ -53,15 +53,6 @@ module Guard
       return UI.error "No API key given." unless @api_key
       return UI.error "No User key given." unless @user_key
       true
-    end
-
-    def format_message(paths, action=nil)
-      case paths.first
-      when Hash
-        paths.first[:message]
-      when String
-        "#{paths.first} was #{action.to_s}."
-      end
     end
 
     def handle_error

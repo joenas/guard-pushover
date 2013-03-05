@@ -6,3 +6,4 @@ guard 'rspec' do
   watch(%r{^lib/guard/(.+)\.rb$}) { |m| "spec/guard/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb')  { "spec" }
 end
+

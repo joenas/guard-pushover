@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Guard::Pushover::VERSION
   spec.authors       = ["Jon Neverland"]
   spec.email         = ["jonwestin@gmail.com"]
-  spec.description   = %q{Have Guard sending Pushover notifications}
+  spec.description   = %q{Let Guard send Pushover notifications}
   spec.summary       = %q{}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/joenas/guard-pushover/"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
@@ -23,8 +23,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "guard"
-  spec.add_development_dependency "guard-pushover"
   spec.add_development_dependency "guard-rspec"
-  spec.add_development_dependency "guard-shell"
   spec.add_development_dependency "rspec"
 end
