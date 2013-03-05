@@ -83,6 +83,18 @@ describe Guard::Pushover do
             run_on_changes
           end
         end
+
+        context "with option :message => 'lets sprint the %s'" do
+          let(:expected_options){ { :title => 'Guard', :priority => 0 } }
+          it "sends a notification to client with correct parameters" do
+            options[:message] = 'lets sprint the %s'
+            message = "lets sprint the #{paths.first}"
+            client.should_receive(:notify).with(user_key, message, expected_options)
+            Guard::UI.should_receive(:info).with(/Pushover: message sent/)
+            run_on_changes
+          end
+        end
+
       end
 
       context "and invalid credentials" do

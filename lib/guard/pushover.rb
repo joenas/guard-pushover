@@ -16,19 +16,19 @@ module Guard
       options = DEFAULTS.merge(options)
       @user_key = options.delete(:user_key)
       @api_key = options.delete(:api_key)
-      super
+      super watchers, options
     end
 
     def run_on_changes(paths)
-      send_notification "#{paths.first} was changed."
+      send_notification "%s was changed.", paths.first
     end
 
     def run_on_removals(paths)
-      send_notification "#{paths.first} was removed."
+      send_notification "%s was removed.", paths.first
     end
 
     def run_on_additions(paths)
-      send_notification "#{paths.first} was added."
+      send_notification "%s was added.", paths.first
     end
 
   private
@@ -37,8 +37,9 @@ module Guard
       @client = options.delete(:client) || Rushover::Client.new(@api_key)
     end
 
-    def send_notification(msg)
-      return unless api_keys_valid?
+    def send_notification(msg, file)
+      return unless api_keys_present?
+      msg = (options.delete(:message) || msg) % file
       @resp = client.notify(@user_key, msg, options)
       if @resp.ok?
         UI.info "Pushover: message sent"
@@ -47,7 +48,7 @@ module Guard
       end
     end
 
-    def api_keys_valid?
+    def api_keys_present?
       return UI.error "No API key given." unless @api_key
       return UI.error "No User key given." unless @user_key
       true
