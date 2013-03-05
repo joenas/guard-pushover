@@ -5,8 +5,28 @@ describe Guard::Pushover do
   subject{Guard::Pushover.new([], options)}
   let(:options){ {:user_key => user_key, :api_key => api_key} }
   let(:paths){ ['file.rb'] }
-  let(:user_key){ '' }
-  let(:api_key){ '' }
+  let(:user_key){ 'user' }
+  let(:api_key){ 'api' }
+  let(:client){double('client', :notify => response)}
+  let(:response){double('response', :ok? => true)}
+  let(:options) { {:user_key => user_key, :api_key => api_key, :client => client} }
+  let(:expected_options){ { :title => 'Guard', :priority => 0 } }
+
+  context "with valid options and credentials" do
+    it "#run_on_removals sends a notification to client with correct parameters" do
+      message = "#{paths.first} was removed."
+      client.should_receive(:notify).with(user_key, message, expected_options)
+      Guard::UI.should_receive(:info).with(/Pushover: message sent/)
+      subject.run_on_removals(paths)
+    end
+
+    it "#run_on_additions_sends a notification to client with correct parameters" do
+      message = "#{paths.first} was added."
+      client.should_receive(:notify).with(user_key, message, expected_options)
+      Guard::UI.should_receive(:info).with(/Pushover: message sent/)
+      subject.run_on_additions(paths)
+    end
+  end
 
   describe "#run_on_changes" do
     let(:run_on_changes){subject.run_on_changes(paths)}
@@ -28,13 +48,7 @@ describe Guard::Pushover do
     end
 
     context "with correct options" do
-      let(:user_key){ 'user' }
-      let(:api_key){ 'api' }
-      let(:response){double('response', :ok? => true)}
-      let(:client){double('client', :notify => response)}
-      let(:options) { {:user_key => user_key, :api_key => api_key, :client => client} }
       let(:message) { "#{paths.first} was changed." }
-      let(:expected_options){ { :title => 'Guard', :priority => 0 } }
 
       context "and valid credentials" do
         it "shows an info message 'Pushover: message sent'" do
