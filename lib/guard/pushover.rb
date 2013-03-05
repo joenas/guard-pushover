@@ -4,37 +4,44 @@ require 'guard/watcher'
 require 'rushover'
 
 module Guard
-  # Send notifications to Hipchat
+  # Send notifications to Pushover
   class Pushover < Guard
+
+    VERSION = "0.0.1"
 
     CONFIG = {
       :title => 'Guard',
-      :prio => 0
+      :priority => 0
     }
 
     def initialize(watchers = [], options = {})
-      super
-      @user_key = options.delete(:user_key)
-      @api_key = options.delete(:api_key)
+      super()
       @options = CONFIG.merge(options)
+      @user_key = @options.delete(:user_key)
+      @api_key = @options.delete(:api_key)
     end
 
     def run_on_changes(paths)
-      send_notification("#{paths.first} was updated at #{Time.now}.")
+      send_notification format_message(paths, :changed)
     end
 
     def run_on_removals(paths)
-      send_notification("#{paths.first} was removed at #{Time.now}.")
+      send_notification format_message(paths, :removed)
     end
 
     def run_on_additions(paths)
-      send_notification("#{paths.first} was added at #{Time.now}.")
+      send_notification format_message(paths, :added)
     end
 
   private
+
+    def client
+      @client = options.delete(:client) || Rushover::Client.new(@api_key)
+    end
+
     def send_notification(msg)
-      check_keys
-      @resp = client.notify(@user_key, msg, options)
+      return unless api_keys_valid?
+      @resp = client.notify(@user_key, msg, @options)
       if @resp.ok?
         UI.info "Pushover: message sent"
       else
@@ -42,18 +49,24 @@ module Guard
       end
     end
 
-    def check_keys
-      return UI.error "No API Key given. Plz fix." unless @api_key
-      return UI.error "No User key given. Plz fix." unless @user_key
+    def api_keys_valid?
+      return UI.error "No API key given." unless @api_key
+      return UI.error "No User key given." unless @user_key
+      true
     end
 
-    def client
-      @client ||= Rushover::Client.new(@api_key)
+    def format_message(paths, action=nil)
+      case paths.first
+      when Hash
+        paths.first[:message]
+      when String
+        "#{paths.first} was #{action.to_s}."
+      end
     end
 
     def handle_error
       if @resp[:user] == 'invalid' || @resp[:token] == 'invalid'
-        append = ', check config.yaml'
+        append = ', check API and User key'
       end
       UI.error "#{@resp[:errors].join()}#{append}"
     end
