@@ -2,6 +2,6 @@
 # More info at https://github.com/guard/guard#readme
 
 guard :pushover, :api_key => '', :user_key => '' do
-	watch(/lib\/(.*).rb/) {|m| m }
+	watch(/lib\/(.*).rb/)
 end
 
