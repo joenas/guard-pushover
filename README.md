@@ -23,10 +23,20 @@ Gem will be available soon.
 To generate template: `guard init pushover` 
 
 ### Example
+```ruby
+guard :pushover, :api_key => '', :user_key => '' do
+  watch(/lib\/(.*).rb/)
+end
+```
 
-    guard :pushover, :api_key => '', :user_key => '' do
-        watch(/lib\/(.*).rb/)
-    end
+### Available options
+
+``` ruby
+:title => 'Title'            # Custom title, default is 'Guard'
+:priority => 1               # Priority, default is 0
+```
+
+Read more on [Pushover API](https://pushover.net/api).
 
 Guard::Pushover will send a message like "[filename] was changed/removed/added".
 Support will be added for custom messages.
