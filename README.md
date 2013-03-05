@@ -40,6 +40,11 @@ end
 ``` ruby
 :title => 'Title'            # Custom title, default is 'Guard'
 :priority => 1               # Priority, default is 0
+:message => "Filename: %s"   # Custom message, using sprintf. 
+:ignore_additions => true    # Ignores added files
+:ignore_changes => true      # Ignores changed files
+:ignore_removals => true     # Ignores removed files
+
 ```
 
 Read more on [Pushover API](https://pushover.net/api).
