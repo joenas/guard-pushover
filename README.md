@@ -10,9 +10,9 @@ Send [Pushover](https://pushover.net/) notifications with Guard!
 
 Install it yourself as:
 
-    $ git clone git@github.com:joenas/preek.git
+    $ git clone git@github.com:joenas/guard-pushover.git
 
-    $ cd preek
+    $ cd guard-pushover
 
     $ rake install
     
