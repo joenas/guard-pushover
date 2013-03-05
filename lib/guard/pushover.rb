@@ -20,15 +20,15 @@ module Guard
     end
 
     def run_on_changes(paths)
-      send_notification "%s was changed.", paths.first
+      send_notification "%s was changed.", paths.first unless options.delete(:ignore_changes)
     end
 
     def run_on_removals(paths)
-      send_notification "%s was removed.", paths.first
+      send_notification "%s was removed.", paths.first unless options.delete(:ignore_removals)
     end
 
     def run_on_additions(paths)
-      send_notification "%s was added.", paths.first
+      send_notification "%s was added.", paths.first unless options.delete(:ignore_additions)
     end
 
   private

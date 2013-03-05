@@ -20,11 +20,38 @@ describe Guard::Pushover do
       subject.run_on_removals(paths)
     end
 
-    it "#run_on_additions_sends a notification to client with correct parameters" do
+    it "#run_on_additions sends a notification to client with correct parameters" do
       message = "#{paths.first} was added."
       client.should_receive(:notify).with(user_key, message, expected_options)
       Guard::UI.should_receive(:info).with(/Pushover: message sent/)
       subject.run_on_additions(paths)
+    end
+  end
+
+  context "with options :ignore_additions => true" do
+    let(:options) { {:user_key => user_key, :api_key => api_key, :client => client, :ignore_additions => true} }
+    it "#run_on_additions does not send a notification" do
+      client.should_not_receive(:notify)
+      Guard::UI.should_not_receive(:info)
+      subject.run_on_additions(paths)
+    end
+  end
+
+  context "with options :ignore_removals => true" do
+    let(:options) { {:user_key => user_key, :api_key => api_key, :client => client, :ignore_removals => true} }
+    it "#run_on_additions does not send a notification" do
+      client.should_not_receive(:notify)
+      Guard::UI.should_not_receive(:info)
+      subject.run_on_removals(paths)
+    end
+  end
+
+  context "with options :ignore_changes => true" do
+    let(:options) { {:user_key => user_key, :api_key => api_key, :client => client, :ignore_changes => true} }
+    it "#run_on_additions does not send a notification" do
+      client.should_not_receive(:notify)
+      Guard::UI.should_not_receive(:info)
+      subject.run_on_changes(paths)
     end
   end
 
@@ -110,7 +137,7 @@ describe Guard::Pushover do
         end
 
         context "for 'token' key" do
-          it "shows error message 'user identifier is invalid'" do
+          it "shows error message 'application token is invalid'" do
             response.stub(:[]).with(:user).and_return(true)
             response.stub(:[]).with(:token).and_return('invalid')
             response.stub(:[]).with(:errors).and_return(['application token is invalid'])
