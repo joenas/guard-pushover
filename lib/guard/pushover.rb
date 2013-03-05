@@ -7,15 +7,13 @@ module Guard
   # Send notifications to Pushover
   class Pushover < Guard
 
-    VERSION = "0.0.1"
-
-    CONFIG = {
+    DEFAULTS = {
       :title => 'Guard',
       :priority => 0
     }
 
     def initialize(watchers = [], options = {})
-      options = CONFIG.merge(options)
+      options = DEFAULTS.merge(options)
       @user_key = options.delete(:user_key)
       @api_key = options.delete(:api_key)
       super
