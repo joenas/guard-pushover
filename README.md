@@ -8,19 +8,25 @@ Send [Pushover](https://pushover.net/) notifications with Guard!
 
 ## Installation
 
-Install it yourself as:
+    $ gem install guard-pushover
+    
+or
+
+    # Add to Gemfile
+    gem 'guard/pushover
+
+or install it yourself
 
     $ git clone git@github.com:joenas/guard-pushover.git
-
     $ cd guard-pushover
-
     $ rake install
     
-Gem will be available soon.
 
 ## Usage
 
-To generate template: `guard init pushover` 
+To generate template: 
+ 
+    $ guard init pushover
 
 ### Example
 ```ruby
