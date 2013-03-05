@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'guard/pushover'
+require 'guard/pushover/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "guard-pushover"
-  spec.version       = Guard::Pushover::VERSION
+  spec.version       = Guard::PushoverVersion::VERSION
   spec.authors       = ["Jon Neverland"]
   spec.email         = ["jonwestin@gmail.com"]
   spec.description   = %q{Let Guard send Pushover notifications}
