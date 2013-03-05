@@ -1,24 +1,33 @@
+[![Build Status](https://travis-ci.org/joenas/preek.png)](https://travis-ci.org/joenas/guard-pushover)
+
 # Guard::Pushover
 
-TODO: Write a gem description
+Send [Pushover](https://pushover.net/) notifications with Guard!
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Install it yourself as:
 
-    gem 'guard-pushover'
+    $ git clone git@github.com:joenas/preek.git
 
-And then execute:
+    $ cd preek
 
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install guard-pushover
+    $ rake install
+    
+Gem will be available soon.
 
 ## Usage
 
-TODO: Write usage instructions here
+To generate template: `guard init pushover` 
+
+### Example
+
+    guard :pushover, :api_key => '', :user_key => '' do
+        watch(/lib\/(.*).rb/)
+    end
+
+Guard::Pushover will send a message like "[filename] was changed/removed/added".
+Support will be added for custom messages.
 
 ## Contributing
 
