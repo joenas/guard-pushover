@@ -34,6 +34,7 @@ describe Guard::Pushover do
       client.should_not_receive(:notify)
       Guard::UI.should_not_receive(:info)
       subject.run_on_additions(paths)
+      subject.run_on_additions(paths)
     end
   end
 
@@ -43,6 +44,7 @@ describe Guard::Pushover do
       client.should_not_receive(:notify)
       Guard::UI.should_not_receive(:info)
       subject.run_on_removals(paths)
+      subject.run_on_removals(paths)
     end
   end
 
@@ -51,6 +53,7 @@ describe Guard::Pushover do
     it "#run_on_additions does not send a notification" do
       client.should_not_receive(:notify)
       Guard::UI.should_not_receive(:info)
+      subject.run_on_changes(paths)
       subject.run_on_changes(paths)
     end
   end

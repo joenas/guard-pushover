@@ -16,19 +16,24 @@ module Guard
       options = DEFAULTS.merge(options)
       @user_key = options.delete(:user_key)
       @api_key = options.delete(:api_key)
+      @default_message = options.delete(:message)
+      @ignore_changes = options.delete(:ignore_changes)
+      @ignore_removals = options.delete(:ignore_removals)
+      @ignore_additions = options.delete(:ignore_additions)
+
       super watchers, options
     end
 
     def run_on_changes(paths)
-      send_notification "%s was changed.", paths.first unless options.delete(:ignore_changes)
+      send_notification "%s was changed.", paths.first unless @ignore_changes
     end
 
     def run_on_removals(paths)
-      send_notification "%s was removed.", paths.first unless options.delete(:ignore_removals)
+      send_notification "%s was removed.", paths.first unless @ignore_removals
     end
 
     def run_on_additions(paths)
-      send_notification "%s was added.", paths.first unless options.delete(:ignore_additions)
+      send_notification "%s was added.", paths.first unless @ignore_additions
     end
 
   private
@@ -39,7 +44,7 @@ module Guard
 
     def send_notification(msg, file)
       return unless api_keys_present?
-      msg = (options.delete(:message) || msg) % file
+      msg = (@default_message || msg) % file
       @resp = client.notify(@user_key, msg, options)
       if @resp.ok?
         UI.info "Pushover: message sent"
@@ -62,3 +67,15 @@ module Guard
     end
   end
 end
+
+# options = {
+#   :api_key => '',
+#   :user_key => '',
+#   :message => "%s hejhej",
+#   :ignore_removals => false
+# }
+
+# file = ['file.rb']
+
+# Guard::Pushover.new([],options).run_on_removals(file)
+# Guard::Pushover.new([],options).run_on_changes(file)
