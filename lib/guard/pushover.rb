@@ -67,15 +67,3 @@ module Guard
     end
   end
 end
-
-# options = {
-#   :api_key => '',
-#   :user_key => '',
-#   :message => "%s hejhej",
-#   :ignore_removals => false
-# }
-
-# file = ['file.rb']
-
-# Guard::Pushover.new([],options).run_on_removals(file)
-# Guard::Pushover.new([],options).run_on_changes(file)

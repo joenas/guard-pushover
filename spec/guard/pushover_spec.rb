@@ -30,31 +30,109 @@ describe Guard::Pushover do
 
   context "with options :ignore_additions => true" do
     let(:options) { {:user_key => user_key, :api_key => api_key, :client => client, :ignore_additions => true} }
-    it "#run_on_additions does not send a notification" do
-      client.should_not_receive(:notify)
-      Guard::UI.should_not_receive(:info)
-      subject.run_on_additions(paths)
-      subject.run_on_additions(paths)
+
+    describe "#run_on_additions" do
+      before :each do
+        client.should_not_receive(:notify)
+        Guard::UI.should_not_receive(:info)
+      end
+
+      it "does not send a notification" do
+        subject.run_on_additions(paths)
+      end
+
+      it "does not send a notification when called twice" do
+        subject.run_on_additions(paths)
+        subject.run_on_additions(paths)
+      end
+    end
+
+    describe "#run_on_changes" do
+      it "sends a notification" do
+        client.should_receive(:notify)
+        Guard::UI.should_receive(:info)
+        subject.run_on_changes(paths)
+      end
+    end
+
+    describe "#run_on_removals" do
+      it "sends a notification" do
+        client.should_receive(:notify)
+        Guard::UI.should_receive(:info)
+        subject.run_on_removals(paths)
+      end
     end
   end
 
   context "with options :ignore_removals => true" do
     let(:options) { {:user_key => user_key, :api_key => api_key, :client => client, :ignore_removals => true} }
-    it "#run_on_additions does not send a notification" do
-      client.should_not_receive(:notify)
-      Guard::UI.should_not_receive(:info)
-      subject.run_on_removals(paths)
-      subject.run_on_removals(paths)
+
+    describe "#run_on_removals" do
+      before :each do
+        client.should_not_receive(:notify)
+        Guard::UI.should_not_receive(:info)
+      end
+
+      it "does not send a notification" do
+        subject.run_on_removals(paths)
+      end
+
+      it "does not send a notification when called twice" do
+        subject.run_on_removals(paths)
+        subject.run_on_removals(paths)
+      end
+    end
+
+    describe "#run_on_changes" do
+      it "sends a notification" do
+        client.should_receive(:notify)
+        Guard::UI.should_receive(:info)
+        subject.run_on_changes(paths)
+      end
+    end
+
+    describe "#run_on_additions" do
+      it "sends a notification" do
+        client.should_receive(:notify)
+        Guard::UI.should_receive(:info)
+        subject.run_on_additions(paths)
+      end
     end
   end
 
   context "with options :ignore_changes => true" do
     let(:options) { {:user_key => user_key, :api_key => api_key, :client => client, :ignore_changes => true} }
-    it "#run_on_additions does not send a notification" do
-      client.should_not_receive(:notify)
-      Guard::UI.should_not_receive(:info)
-      subject.run_on_changes(paths)
-      subject.run_on_changes(paths)
+
+    describe "#run_on_changes" do
+      before :each do
+        client.should_not_receive(:notify)
+        Guard::UI.should_not_receive(:info)
+      end
+
+      it "does not send a notification" do
+        subject.run_on_changes(paths)
+      end
+
+      it "does not send a notification when called twice" do
+        subject.run_on_changes(paths)
+        subject.run_on_changes(paths)
+      end
+    end
+
+    describe "#run_on_removals" do
+      it "sends a notification" do
+        client.should_receive(:notify)
+        Guard::UI.should_receive(:info)
+        subject.run_on_removals(paths)
+      end
+    end
+
+    describe "#run_on_additions" do
+      it "sends a notification" do
+        client.should_receive(:notify)
+        Guard::UI.should_receive(:info)
+        subject.run_on_additions(paths)
+      end
     end
   end
 
