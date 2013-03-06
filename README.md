@@ -28,11 +28,25 @@ To generate template:
  
     $ guard init pushover
 
-### Example
+### Examples
 ```ruby
+# Give the filename as it is
 guard :pushover, :api_key => '', :user_key => '' do
   watch(/lib\/(.*).rb/)
 end
+#=> "file.rb was changed"
+
+# Custom message
+guard :pushover, :message => "Yo! I just changed %s!", :api_key => '', :user_key => '' do
+  watch(/lib\/(.*).rb/)
+end
+#=>  "Yo! I just changed file.rb!"
+
+# Do something with the filename before giving it to Pushover
+guard :pushover, :api_key => '', :user_key => '' do
+  watch(/lib\/(.*).rb/) { |match| match[0].uppercase }
+end
+#=> "FILE.RB was changed"
 ```
 
 ### Available options
@@ -48,9 +62,6 @@ end
 ```
 
 Read more on [Pushover API](https://pushover.net/api).
-
-Guard::Pushover will send a message like "[filename] was changed/removed/added".
-Support will be added for custom messages.
 
 ## Contributing
 
