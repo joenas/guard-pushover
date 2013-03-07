@@ -1,6 +1,7 @@
+[![Gem Version](https://badge.fury.io/rb/guard-pushover.png)](http://badge.fury.io/rb/guard-pushover)
 [![Build Status](https://travis-ci.org/joenas/preek.png)](https://travis-ci.org/joenas/guard-pushover)
 [![Coverage Status](https://coveralls.io/repos/joenas/guard-pushover/badge.png?branch=master)](https://coveralls.io/r/joenas/guard-pushover)
-
+[![Dependency Status](https://gemnasium.com/joenas/guard-pushover.png)](https://gemnasium.com/joenas/guard-pushover)
 
 # Guard::Pushover
 
